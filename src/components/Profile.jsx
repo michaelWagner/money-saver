@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getProfile, updateProfile } from '../api';
 
-const Profile = ({ token }) => {
+const Profile = () => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const response = await getProfile(token);
+      const response = await getProfile();
       setUser(response.data);
       setUsername(response.data.username);
       setProfilePicture(response.data.profile_picture);
     };
     fetchProfile();
-  }, [token]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await updateProfile(token, { username, profilePicture });
+    await updateProfile({ username, profilePicture });
     setUser({ ...user, username, profile_picture: profilePicture });
   };
 

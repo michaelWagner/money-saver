@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "mikeywagner",
+    "password": "admin123",
+    "database": "money_saver_db",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "mikeywagner",
+    "password": "admin123",
+    "database": "money_saver_db",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "mikeywagner",
+    "password": "admin123",
+    "database": "money_saver_db",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}

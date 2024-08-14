@@ -6,9 +6,10 @@ const registerUser = async (req, res) => {
   const { username, password } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
+    const now = new Date(); // Current timestamp for both createdAt and updatedAt
     const newUser = await pool.query(
-      'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *',
-      [username, hashedPassword]
+      'INSERT INTO users (username, password, "createdAt", "updatedAt") VALUES ($1, $2, $3, $4) RETURNING *',
+      [username, hashedPassword, now, now]
     );
     res.status(201).json(newUser.rows[0]);
   } catch (error) {

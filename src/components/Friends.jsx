@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Friends = ({ token }) => {
+const Friends = () => {
   const [friends, setFriends] = useState([]);
   const [newFriendName, setNewFriendName] = useState('');
   const [allUsers, setAllUsers] = useState([]);
@@ -20,7 +20,7 @@ const Friends = ({ token }) => {
 
     fetchFriends();
     fetchAllUsers();
-  }, [token]);
+  }, []);
 
   const addFriend = async (userId) => {
     await axios.post('/api/friends', { userId }, { headers: { Authorization: `Bearer ${token}` } });
