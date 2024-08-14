@@ -12,11 +12,12 @@ const getItems = async (req, res) => {
 
 // Add a new item (if needed)
 const addItem = async (req, res) => {
-  const { name, price } = req.body;
+  const { title, price } = req.body;
+  const now = new Date(); // Current timestamp for both createdAt and updatedAt
   try {
     const newItem = await pool.query(
-      'INSERT INTO items (name, price) VALUES ($1, $2) RETURNING *',
-      [name, price]
+      'INSERT INTO items (title, price, "createdAt", "updatedAt") VALUES ($1, $2, $3, $4) RETURNING *',
+      [title, price, now, now]
     );
     res.status(201).json(newItem.rows[0]);
   } catch (error) {
