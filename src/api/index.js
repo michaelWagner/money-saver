@@ -1,21 +1,47 @@
-import axios from 'axios';
+import api from './api'
 
-const API_URL = 'http://localhost:8080/api/users';
+// const API_URL = 'http://localhost:8080/api'
 
+// LOGIN AND REGISTER
 const register = (username, password) => {
-  return axios.post(`${API_URL}/register`, { username, password });
-};
+  return api.post('/api/users/register', { username, password })
+}
 
 const login = (username, password) => {
-  return axios.post(`${API_URL}/login`, { username, password });
-};
+  return api.post('/api/users/login', { username, password })
+}
 
-const getProfile = (token) => {
-  return axios.get(`${API_URL}/profile`, { headers: { Authorization: `Bearer ${token}` } });
-};
+const getProfile = () => {
+  return api.get('/api/users/profile')
+}
 
-const updateProfile = (token, data) => {
-  return axios.put(`${API_URL}/profile`, data, { headers: { Authorization: `Bearer ${token}` } });
-};
+const updateProfile = (data) => {
+  return api.put('/api/users/profile', data)
+}
 
-export { register, login, getProfile, updateProfile };
+// BUCKET
+const getItems = () => {
+  return api.get('/api/items')
+}
+const addItem = (item) => {
+  return api.post('/api/items', item)
+}
+
+const getSavings = () => {
+  return api.get('/api/savings')
+}
+
+const updateSavings = (item) => {
+  return api.post('/api/savings', item)
+}
+
+export {
+  register,
+  login,
+  getProfile,
+  updateProfile,
+  getItems,
+  addItem,
+  getSavings,
+  updateSavings
+}
