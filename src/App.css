@@ -1,76 +1,145 @@
+/* Global Styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Nunito', sans-serif;
+  background-color: #1e1e1e; /* Dark mode background */
+  color: #f0f0f0; /* Light text for dark mode */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+/* Header Styles */
 .header {
-  background-color: #282c34;
-  padding: 20px;
-  color: white;
-  text-align: center;
+  background-color: #121212; /* Dark header background */
+  color: #fcd34d; /* Primary color for text */
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.header h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  margin: 0;
 }
 
 .header nav ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .header nav ul li {
   display: inline;
-  margin: 0 10px;
+  margin: 0 15px;
 }
 
 .header nav ul li a {
-  color: white;
+  color: #fcd34d; /* Primary color for links */
   text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
 }
 
+.header nav ul li a:hover {
+  color: #fbbf24; /* Darker primary color for hover */
+}
+
+.header nav ul li button {
+  background: none;
+  border: none;
+  color: #fcd34d;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.header nav ul li button:hover {
+  color: #fbbf24; /* Darker primary color for hover */
+}
+
+/* Bucket and Friends Section Styles */
+
 .bucket, .friends {
-  margin: 20px;
+  margin: 20px auto;
   padding: 20px;
-  border: 1px solid #ddd;
+  border: 1px solid #333; /* Darker border color */
   border-radius: 8px;
+  background-color: #282c34; /* Slightly lighter dark background */
 }
 
 .bucket h2, .friends h2 {
   margin-top: 0;
+  color: #fcd34d; /* Primary color for headings */
 }
 
+/* Item Card Styles */
 .item-card {
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid #ddd;
+  border: 1px solid #444; /* Darker border color */
   border-radius: 8px;
+  background-color: #333; /* Darker background for items */
 }
 
 .item-card.dragging {
   opacity: 0.5;
 }
 
+/* Dropzone Styles */
 .dropzone {
   min-height: 100px;
-  border: 2px dashed #ddd;
+  border: 2px dashed #444; /* Darker dashed border */
   padding: 10px;
   text-align: center;
+  background-color: #282c34; /* Dark background for dropzone */
+  color: #999; /* Lighter text color for placeholder text */
 }
 
 .dropzone.over {
-  background-color: #f0f8ff;
+  background-color: #2a2a2a; /* Slightly lighter background when hovering */
+  border-color: #fcd34d; /* Primary color for border on hover */
+  color: #fcd34d; /* Primary color for text on hover */
 }
 
+/* Create Item Card Styles */
 .create-item-card {
   margin: 20px 0;
+  background-color: #333; /* Dark background for create item card */
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .create-item-card input {
   margin: 0 5px;
-  padding: 5px;
+  padding: 10px;
+  border: 1px solid #444; /* Darker border color */
+  border-radius: 4px;
+  background-color: #222; /* Darker background for input fields */
+  color: #f0f0f0; /* Light text color for input fields */
 }
 
+.create-item-card input::placeholder {
+  color: #888; /* Lighter color for placeholder text */
+}
+
+/* Add Friend Form Styles */
 .add-friend-form {
   margin-top: 20px;
+  background-color: #333; /* Dark background for add friend form */
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .add-friend-form input {
   margin-right: 10px;
-  padding: 5px;
+  padding: 10px;
+  border: 1px solid #444; /* Darker border color */
+  border-radius: 4px;
+  background-color: #222; /* Darker background for input fields */
+  color: #f0f0f0; /* Light text color for input fields */
 }
+
+.add-friend-form input::placeholder {
+  color: #888; /* Lighter color for placeholder text */
+}
+

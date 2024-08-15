@@ -1,0 +1,24 @@
+/* src/components/Bucket.css */
+
+.bucket {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.bucket h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.dropzone {
+  min-height: 150px;
+  border: 2px dashed #ddd;
+  padding: 10px;
+  text-align: center;
+  background-color: #f9fafb;
+  border-radius: 8px;
+}

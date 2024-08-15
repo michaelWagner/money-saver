@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { getProfile, updateProfile } from '../api';
+import { getUserProfile, updateUserProfile } from '../api';
 
-const Profile = () => {
+const ProfileInfo = () => {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const response = await getProfile();
+      const response = await getUserProfile();
       setUser(response.data);
       setUsername(response.data.username);
       setProfilePicture(response.data.profile_picture);
@@ -18,7 +18,7 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await updateProfile({ username, profilePicture });
+    await updateUserProfile({ username, profilePicture });
     setUser({ ...user, username, profile_picture: profilePicture });
   };
 
@@ -44,4 +44,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileInfo;
