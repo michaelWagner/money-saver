@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Friends = () => {
+const FriendList = () => {
   const [friends, setFriends] = useState([]);
   const [newFriendName, setNewFriendName] = useState('');
   const [allUsers, setAllUsers] = useState([]);
@@ -57,4 +57,4 @@ const Friends = () => {
   );
 };
 
-export default Friends;
+export default FriendList;
