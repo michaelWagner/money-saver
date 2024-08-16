@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { loginUser, registerUser } from '../api'
-import './AuthForm.css'
 
 const AuthForm = ({ setToken }) => {
   const [username, setUsername] = useState('')
@@ -37,34 +36,41 @@ const AuthForm = ({ setToken }) => {
   }
 
   return (
-    <div className="auth-form">
-      <h2>{isRegister ? 'Register' : 'Login'}</h2>
+    <div className="max-w-md mx-auto p-6 border border-gray-300 rounded-lg bg-gray-800">
+      <h2 className="text-2xl text-white mb-4">{isRegister ? 'Register' : 'Login'}</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
+        <div className="mb-4">
+          <label htmlFor="username" className="block text-gray-300 font-bold mb-2">Username:</label>
           <input
             id="username"
             type="text"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-400 rounded-md text-gray-900"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
+        <div className="mb-4">
+          <label htmlFor="password" className="block text-gray-300 font-bold mb-2">Password:</label>
           <input
             id="password"
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-400 rounded-md text-gray-900"
           />
         </div>
-        {error && <p className="error">{error}</p>}
-        {success && <p className="success">{success}</p>}
-        <button type="submit">{isRegister ? 'Register' : 'Login'}</button>
+        {error && <p className="text-red-500">{error}</p>}
+        {success && <p className="text-green-500">{success}</p>}
+        <button type="submit" className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+          {isRegister ? 'Register' : 'Login'}
+        </button>
       </form>
-      <button onClick={() => setIsRegister(!isRegister)} className="switch-button">
+      <button
+        onClick={() => setIsRegister(!isRegister)}
+        className="mt-4 text-blue-500 hover:underline focus:outline-none"
+      >
         {isRegister ? 'Switch to Login' : 'Switch to Register'}
       </button>
     </div>
@@ -73,6 +79,6 @@ const AuthForm = ({ setToken }) => {
 
 AuthForm.propTypes = {
   setToken: PropTypes.func.isRequired,
-};
+}
 
 export default AuthForm
