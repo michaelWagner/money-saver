@@ -40,8 +40,12 @@ const Bucket = () => {
     fetchTotalSavings()
   }, [])
 
+  useEffect(() => {
+    console.log('Bucket items:', bucketItems)
+  }, [bucketItems])
+
   const addItemToBucket = (item) => {
-    debugger
+    console.log('Adding item to bucket:', item)
     setBucketItems((prevItems) => [...prevItems, item])
     setTotalSavings((prevTotal) => prevTotal + item.price)
   }
@@ -71,7 +75,7 @@ const Bucket = () => {
       <CreateItemCard />
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
         {items.map((item) => (
-          item && <ItemCard key={item.id} item={item} addItem={addItemToBucket} />
+          item && <ItemCard key={item.id} item={item} />
         ))}
       </div>
     </div>

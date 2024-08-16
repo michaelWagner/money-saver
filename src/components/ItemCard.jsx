@@ -1,16 +1,10 @@
 import PropTypes from 'prop-types'
 import { useDrag } from 'react-dnd'
 
-const ItemCard = ({ item, addItemToBucket }) => {
+const ItemCard = ({ item }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'ITEM_CARD',
-    item: { id: item.id, price: item.price },
-    end: (draggedItem, monitor) => {
-      const dropResult = monitor.getDropResult()
-      if (dropResult) {
-        addItemToBucket(draggedItem)
-      }
-    },
+    item,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -34,8 +28,7 @@ ItemCard.propTypes = {
     id: PropTypes.number.isRequired,
     price: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-  }).isRequired,
-  addItemToBucket: PropTypes.func.isRequired,
+  }).isRequired
 }
 
 export default ItemCard
