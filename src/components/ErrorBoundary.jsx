@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const ErrorBoundary = ({ children }) => {
-  const [hasError, setHasError] = useState(false);
+  const [hasError, setHasError] = useState(false)
 
-  const resetError = () => setHasError(false);
+  const resetError = () => setHasError(false)
 
   // Custom hook to handle errors in child components
   const ErrorFallback = () => (
@@ -12,22 +12,22 @@ const ErrorBoundary = ({ children }) => {
       <h1>Something went wrong. Please try again later.</h1>
       <button onClick={resetError}>Retry</button>
     </div>
-  );
+  )
 
   if (hasError) {
-    return <ErrorFallback />;
+    return <ErrorFallback />
   }
 
   try {
-    return React.Children.only(children);
+    return React.Children.only(children)
   } catch (error) {
-    setHasError(true);
-    return <ErrorFallback />;
+    setHasError(true)
+    return <ErrorFallback />
   }
-};
+}
 
 ErrorBoundary.propTypes = {
   children: PropTypes.node.isRequired,
-};
+}
 
-export default ErrorBoundary;
+export default ErrorBoundary

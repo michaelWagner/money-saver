@@ -1,9 +1,9 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
-import App from './App';
-import './index.css';
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+import App from './App'
+import './index.css'
 
 const root = createRoot(document.getElementById('root'))
 root.render(
@@ -12,4 +12,4 @@ root.render(
       <App />
     </DndProvider>
   </React.StrictMode>
-);
+)
