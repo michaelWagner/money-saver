@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { loginUser, registerUser } from '../api'
+import { loginUser, registerUser } from '../services'
+import { useUser } from '../context/UserContext'
 
 const AuthForm = ({ setToken }) => {
+  const { setUser } = useUser()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isRegister, setIsRegister] = useState(false)
@@ -12,23 +14,27 @@ const AuthForm = ({ setToken }) => {
 
   const navigate = useNavigate()
 
+  const login = async (username, password) => {
+    const { data } = await loginUser(username, password)
+
+    setToken(data.token)
+    const user = {...data}
+    delete user.token
+
+    setUser(user)
+    setError('')
+    navigate('/')
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       if (isRegister) {
-        const { data } = await registerUser(username, password)
-
-        setToken(data.token)
+        await registerUser(username, password)
         setSuccess('Registration successful')
-        setError('')
-        navigate('/')
+        login(username, password)
       } else {
-        const { data } = await loginUser(username, password)
-
-        setToken(data.token)
-        setSuccess('Login successful')
-        setError('')
-        navigate('/')
+        login(username, password)
       }
     } catch (error) {
       setError('Failed to authenticate: ' + error.message)

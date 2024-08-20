@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDrop } from 'react-dnd'
-import { getItems, getSavings } from '../api'
+import { getItems, getSavings, updateSavings } from '../services'
 import ItemCard from './ItemCard'
 import CreateItemCard from './CreateItemCard'
 
@@ -44,9 +44,11 @@ const Bucket = () => {
     console.log('Bucket items:', bucketItems)
   }, [bucketItems])
 
-  const addItemToBucket = (item) => {
+  const addItemToBucket = async (item) => {
     console.log('Adding item to bucket:', item)
     setBucketItems((prevItems) => [...prevItems, item])
+    // TODO need to get savingsId
+    await updateSavings(0, item)
     setTotalSavings((prevTotal) => prevTotal + item.price)
   }
 

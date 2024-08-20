@@ -1,10 +1,17 @@
-const pool = require('../config/db');
+const { Savings, User, UserSavings } = require('../models');
 
 // Get current savings
 const getSavings = async (req, res) => {
+  const userId = req.user.id;
   try {
-    const savings = await pool.query('SELECT * FROM savings WHERE user_id = $1', [req.user.id]);
-    res.status(200).json(savings.rows[0]); // Assuming one savings record per user
+    const savings = await Savings.findAll({
+      where: { user_id: userId }, // Direct ownership
+      include: [{
+        model: User,
+        as: 'Collaborators'
+      }]
+    });
+    res.status(200).json(savings);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -12,19 +19,48 @@ const getSavings = async (req, res) => {
 
 // Update savings by adding an item
 const updateSavings = async (req, res) => {
-  const { itemId } = req.body; // Assuming the item ID is passed in the body
+  const { item, savingsId } = req.body;
+  const userId = req.user.id;
   try {
-    const item = await pool.query('SELECT price FROM items WHERE id = $1', [itemId]);
-    if (item.rows.length === 0) {
-      return res.status(404).json({ message: 'Item not found' });
+    // const item = await Item.findByPk(itemId);
+    // if (!item) {
+    //   return res.status(404).json({ message: 'Item not found' });
+    // }
+
+    const userSavings = await UserSavings.findOne({
+      where: {
+        user_id: userId,
+        savings_id: savingsId,
+      },
+    });
+
+    if (!userSavings) {
+      return res.status(403).json({ message: 'You do not have access to this savings account' });
     }
 
-    const updatedSavings = await pool.query(
-      'UPDATE savings SET total = total + $1 WHERE user_id = $2 RETURNING *',
-      [item.rows[0].price, req.user.id]
-    );
+    const savings = await Savings.findByPk(savingsId);
+    if (!savings) {
+      return res.status(404).json({ message: 'Savings record not found' });
+    }
 
-    res.status(200).json(updatedSavings.rows[0]);
+    savings.total += item.price;
+    await savings.save();
+
+    res.status(200).json(savings);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Share savings with a friend
+const shareSavingsWithFriend = async (req, res) => {
+  const { friendId, savingsId } = req.body;
+  try {
+    await UserSavings.create({
+      user_id: friendId,
+      savings_id: savingsId,
+    });
+    res.status(200).json({ message: 'Savings shared successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -33,4 +69,5 @@ const updateSavings = async (req, res) => {
 module.exports = {
   getSavings,
   updateSavings,
+  shareSavingsWithFriend,
 };

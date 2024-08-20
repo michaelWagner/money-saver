@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { addItem } from '../services'
 
-const CreateItemCard = ({ addItem }) => {
+const CreateItemCard = () => {
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if (title && price) {
-      addItem(title, parseFloat(price))
+      addItem({title, price: parseFloat(price)})
       setTitle('')
       setPrice('')
     }
@@ -42,10 +43,6 @@ const CreateItemCard = ({ addItem }) => {
       </button>
     </form>
   )
-}
-
-CreateItemCard.propTypes = {
-  addItem: PropTypes.func.isRequired,
 }
 
 export default CreateItemCard

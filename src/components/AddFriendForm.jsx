@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { addFriend } from '../api'
+import { addFriend } from '../services'
 
 const AddFriendForm = () => {
   const [email, setEmail] = useState('')

@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react'
-import { getUserProfile, updateUserProfile } from '../api'
+import { getUserProfile, updateUserProfile } from '../services'
 
 const ProfileInfo = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
-  const [profilePicture, setProfilePicture] = useState('')
+  const [profileImg, setProfileImg] = useState('')
 
   useEffect(() => {
     const fetchProfile = async () => {
       const response = await getUserProfile()
       setUser(response.data)
       setUsername(response.data.username)
-      setProfilePicture(response.data.profile_picture)
+      setProfileImg(response.data.profile_picture)
     }
     fetchProfile()
   }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await updateUserProfile({ username, profilePicture })
-    setUser({ ...user, username, profile_picture: profilePicture })
+    await updateUserProfile({ username, profileImg })
+    setUser({ ...user, username, profile_picture: profileImg })
   }
 
   if (!user) return <div>Loading...</div>
@@ -35,8 +35,8 @@ const ProfileInfo = () => {
         />
         <input
           type="text"
-          value={profilePicture}
-          onChange={(e) => setProfilePicture(e.target.value)}
+          value={profileImg}
+          onChange={(e) => setProfileImg(e.target.value)}
         />
         <button type="submit">Update Profile</button>
       </form>

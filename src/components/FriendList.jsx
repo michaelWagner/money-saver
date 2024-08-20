@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { addFriend, getFriends, getUsers } from '../services'
 
 const FriendList = () => {
   const [friends, setFriends] = useState([])
@@ -9,24 +9,24 @@ const FriendList = () => {
 
   useEffect(() => {
     const fetchFriends = async () => {
-      const response = await axios.get('/api/friends', { headers: { Authorization: `Bearer ${token}` } })
-      setFriends(response.data)
+      const { data } = await getFriends()
+      setFriends(data)
     }
 
     const fetchAllUsers = async () => {
-      const response = await axios.get('/api/users', { headers: { Authorization: `Bearer ${token}` } })
-      setAllUsers(response.data)
+      const { data } = await getUsers()
+      setAllUsers(data)
     }
 
     fetchFriends()
     fetchAllUsers()
   }, [])
 
-  const addFriend = async (userId) => {
-    await axios.post('/api/friends', { userId }, { headers: { Authorization: `Bearer ${token}` } })
+  const addNewFriend = async (userId) => {
+    await addFriend(userId)
     setNewFriendName('')
-    const response = await axios.get('/api/friends', { headers: { Authorization: `Bearer ${token}` } })
-    setFriends(response.data)
+    const { data } = await getFriends()
+    setFriends(data)
   }
 
   return (
@@ -54,7 +54,7 @@ const FriendList = () => {
             <li key={user.id} className="flex justify-between items-center mb-2">
               <span className="text-lg text-gray-700">{user.username}</span>
               <button
-                onClick={() => addFriend(user.id)}
+                onClick={() => addNewFriend(user.id)}
                 className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 Add Friend

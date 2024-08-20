@@ -12,6 +12,9 @@ api.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
+    else {
+      console.log('No token found')
+    }
 
     return config
   },
@@ -27,6 +30,7 @@ api.interceptors.response.use(
   (error) => {
     const navigate = useNavigate()
     if (error.response && error.response.status === 401) {
+      console.log('No token found')
       navigate('/login') // Redirect to login if unauthorized
     }
 

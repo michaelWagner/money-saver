@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('savings', {
+    await queryInterface.createTable('userSavings', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -12,27 +12,36 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'users', // Ensure 'users' is the name of your table
+          model: 'users',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      total: {
-        type: Sequelize.DECIMAL(14, 2),
-        defaultValue: 0.00,
+      savings_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'savings',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       created_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
       },
       updated_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
       },
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('savings');
+    await queryInterface.dropTable('userSavings');
   },
 };

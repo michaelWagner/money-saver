@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import FriendList from '../components/FriendList'
 import AddFriendForm from '../components/AddFriendForm'
-import { getFriends } from '../api' // Assuming you have an api file
+import { getFriends } from '../services'
 
 const FriendsPage = () => {
   const [friends, setFriends] = useState([])

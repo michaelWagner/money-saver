@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const savingsController = require('../controllers/savingsController');
+const { getSavings, updateSavings } = require('../controllers/savingsController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
-// Get current savings
-router.get('/', authMiddleware, savingsController.getSavings);
+router.use(authMiddleware);
 
-// Update savings by adding an item
-router.post('/', authMiddleware, savingsController.updateSavings);
+router.get('/', authMiddleware, getSavings);
+router.post('/', authMiddleware, updateSavings);
 
 module.exports = router;

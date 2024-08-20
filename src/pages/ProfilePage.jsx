@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import ProfileInfo from '../components/ProfileInfo'
 import ProfileSettings from '../components/ProfileSettings'
-import { getUserProfile } from '../api' // Assuming you have an api file
+import { getUserProfile } from '../services'
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState({})

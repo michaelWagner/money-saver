@@ -1,7 +1,7 @@
 // src/pages/Home.jsx
 import React, { useState, useEffect } from 'react'
 import Bucket from '../components/Bucket'
-import { getItems, getSavings } from '../api'
+import { getItems, getSavings } from '../services'
 
 const Home = () => {
   const [items, setItems] = useState([])

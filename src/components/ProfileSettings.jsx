@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { updateUserProfile } from '../api'
+import { updateUserProfile } from '../services'
 
 const ProfileSettings = () => {
   const [email, setEmail] = useState('')
