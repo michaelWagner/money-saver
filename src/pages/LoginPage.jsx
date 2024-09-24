@@ -1,5 +1,3 @@
-// src/pages/LoginPage.jsx
-import React from 'react'
 import PropTypes from 'prop-types' // Add this line
 import AuthForm from '../components/AuthForm'
 

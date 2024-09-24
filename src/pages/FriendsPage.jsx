@@ -1,5 +1,4 @@
-// src/pages/FriendsPage.jsx
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import FriendList from '../components/FriendList'
 import AddFriendForm from '../components/AddFriendForm'
 import { getFriends } from '../services'

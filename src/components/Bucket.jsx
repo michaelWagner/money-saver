@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
+import PropTypes from 'prop-types'
 import { useDrop } from 'react-dnd'
-import { getItems, getSavings, updateSavings } from '../services'
+import { updateSavings } from '../services'
 import ItemCard from './ItemCard'
 import CreateItemCard from './CreateItemCard'
 
-const Bucket = () => {
-  const [items, setItems] = useState([])
+const Bucket = ({ items, savingsList }) => {
   const [bucketItems, setBucketItems] = useState([])
   const [totalSavings, setTotalSavings] = useState(0)
 
@@ -17,39 +17,13 @@ const Bucket = () => {
     }),
   }))
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await getItems()
-        setItems(response.data)
-      } catch (error) {
-        console.error('Error fetching items:', error)
-      }
-    }
-
-    const fetchTotalSavings = async () => {
-      try {
-        const response = await getSavings()
-        setTotalSavings(response.data.total_savings)
-      } catch (error) {
-        console.error('Error fetching savings:', error)
-      }
-    }
-
-    fetchItems()
-    fetchTotalSavings()
-  }, [])
-
-  useEffect(() => {
-    console.log('Bucket items:', bucketItems)
-  }, [bucketItems])
-
   const addItemToBucket = async (item) => {
     console.log('Adding item to bucket:', item)
     setBucketItems((prevItems) => [...prevItems, item])
-    // TODO need to get savingsId
-    await updateSavings(0, item)
-    setTotalSavings((prevTotal) => prevTotal + item.price)
+
+    await updateSavings(savingsList.id, item)
+    console.log('Savings updated successfully')
+    setTotalSavings((prevTotal) => prevTotal?.total + item.price)
   }
 
   return (
@@ -73,7 +47,7 @@ const Bucket = () => {
           <p className="text-gray-400">Drag items here to add to your bucket</p>
         )}
       </div>
-      <h3 className="text-xl font-semibold mt-4">Total Savings: ${totalSavings?.toFixed(2)}</h3>
+      <h3 className="text-xl font-semibold mt-4">Total Savings: ${totalSavings?.total?.toFixed(2)}</h3>
       <CreateItemCard />
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
         {items.map((item) => (
@@ -82,6 +56,10 @@ const Bucket = () => {
       </div>
     </div>
   )
+}
+Bucket.propTypes = {
+  items: PropTypes.array.isRequired,
+  savingsList: PropTypes.object.isRequired,
 }
 
 export default Bucket

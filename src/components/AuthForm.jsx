@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { loginUser, registerUser } from '../services'
@@ -23,6 +23,7 @@ const AuthForm = ({ setToken }) => {
 
     setUser(user)
     setError('')
+
     navigate('/')
   }
 

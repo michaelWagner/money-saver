@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'
+import { setNavigate } from './services/history' // Import the utility
 import Header from './components/Header'
 import Home from './pages/Home'
 import FriendsPage from './pages/FriendsPage'
@@ -9,8 +10,13 @@ import ErrorBoundary from './components/ErrorBoundary'
 import ProtectedRoute from './components/ProtectedRoute'
 import './App.css'
 
-const App = () => {
+const AppContent = () => {
   const [token, setToken] = useState(localStorage.getItem('token') || '')
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    setNavigate(navigate) // Set the navigate function for global access
+  }, [navigate])
 
   const logout = () => {
     setToken('')
@@ -24,7 +30,7 @@ const App = () => {
   }
 
   return (
-    <Router>
+    <>
       <Header token={token} logout={logout} />
       <ErrorBoundary>
         <Routes>
@@ -43,6 +49,14 @@ const App = () => {
             <Route path="/login" element={<LoginPage setToken={saveToken} />} />
         </Routes>
       </ErrorBoundary>
+    </>
+  )
+}
+
+const App = () => {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   )
 }

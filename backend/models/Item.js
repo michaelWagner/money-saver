@@ -35,7 +35,8 @@ const Item = sequelize.define('Item', {
 
 // Associate Item with User
 Item.associate = models => {
-  Item.belongsTo(models.User, { foreignKey: 'user_id' });
+  Item.belongsTo(models.User, {foreignKey: 'user_id', as: 'creator' })
+  Item.belongsToMany(models.Savings, { through: 'savings_items', foreignKey: 'item_id', as: 'savings' })
 };
 
 module.exports = Item;

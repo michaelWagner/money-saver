@@ -1,5 +1,4 @@
-// src/pages/ProfilePage.jsx
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import ProfileInfo from '../components/ProfileInfo'
 import ProfileSettings from '../components/ProfileSettings'
 import { getUserProfile } from '../services'

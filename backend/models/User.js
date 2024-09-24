@@ -38,11 +38,8 @@ const User = sequelize.define('User', {
 User.associate = models => {
   User.hasMany(models.Item, { foreignKey: 'user_id' });
   User.hasMany(models.Savings, { foreignKey: 'user_id' }); // Direct ownership
-  User.belongsToMany(models.Savings, { through: models.UserSavings, as: 'CollaboratedSavings', foreignKey: 'user_id' });
   User.hasMany(models.Friend, { foreignKey: 'user_id' });
   User.hasMany(models.Friend, { foreignKey: 'friend_id' });
 };
 
-User.associate = models => {
-};
 module.exports = User;

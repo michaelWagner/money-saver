@@ -1,7 +1,17 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
+const User = require('./User');
 
 const Savings = sequelize.define('Savings', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   total: {
     type: DataTypes.DECIMAL(10, 2),
     defaultValue: 0.00,
@@ -9,7 +19,7 @@ const Savings = sequelize.define('Savings', {
   user_id: {
     type: DataTypes.INTEGER,
     references: {
-      model: 'users',
+      model: User,
       key: 'id',
     },
     onDelete: 'CASCADE',
@@ -30,7 +40,7 @@ const Savings = sequelize.define('Savings', {
 
 Savings.associate = models => {
   Savings.belongsTo(models.User, { foreignKey: 'user_id', as: 'Owner' }); // Direct ownership
-  Savings.belongsToMany(models.User, { through: models.UserSavings, as: 'Collaborators', foreignKey: 'savings_id' });
+  Savings.belongsToMany(User, { through: 'usersavings', foreignKey: 'savings_id', as: 'ownerCollaborators' });
 };
 
 module.exports = Savings;

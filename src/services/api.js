@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { navigate } from './history' // Import the navigation utility
 
 const api = axios.create({
   baseURL: 'http://localhost:8080',
@@ -28,9 +28,10 @@ api.interceptors.response.use(
     return response
   },
   (error) => {
-    const navigate = useNavigate()
+    console.log('Error intercepted:', error)
+
     if (error.response && error.response.status === 401) {
-      console.log('No token found')
+      console.log('Unauthorized, redirecting to login')
       navigate('/login') // Redirect to login if unauthorized
     }
 

@@ -1,4 +1,3 @@
-// backend/config/connection.js
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize({

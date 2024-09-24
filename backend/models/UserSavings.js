@@ -31,11 +31,11 @@ const UserSavings = sequelize.define('UserSavings', {
 }, {
   createdAt: 'created_at',
   updatedAt: 'updated_at',
-  tableName: 'userSavings'
+  tableName: 'usersavings',
 });
 
 // Define associations
-User.belongsToMany(Savings, { through: UserSavings, foreignKey: 'user_id', as: 'sharedSavings' });
-Savings.belongsToMany(User, { through: UserSavings, foreignKey: 'savings_id', as: 'collaborators' });
+User.belongsToMany(Savings, { through: 'usersavings', foreignKey: 'user_id', as: 'sharedSavings' });
+Savings.belongsToMany(User, { through: 'usersavings', foreignKey: 'savings_id', as: 'collaborators' });
 
 module.exports = UserSavings;
