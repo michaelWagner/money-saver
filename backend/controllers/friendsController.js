@@ -1,13 +1,14 @@
-const pool = require('../config/db');
+const { Friend, User } = require('../models');
 
 // Get all friends for a user
 const getFriends = async (req, res) => {
   try {
-    const friends = await pool.query(
-      'SELECT * FROM friends WHERE user_id = $1',
-      [req.user.id]
-    );
-    res.status(200).json(friends.rows);
+    const userId = req.user.id;
+    const friends = await Friend.findAll({
+      where: { user_id: userId },
+      include: [{ model: User, as: 'Friend' }],
+    });
+    res.status(200).json(friends);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -16,12 +17,13 @@ const getFriends = async (req, res) => {
 // Add a friend
 const addFriend = async (req, res) => {
   const { friendId } = req.body;
+  const userId = req.user.id;
   try {
-    const newFriend = await pool.query(
-      'INSERT INTO friends (user_id, friend_id) VALUES ($1, $2) RETURNING *',
-      [req.user.id, friendId]
-    );
-    res.status(201).json(newFriend.rows[0]);
+    const newFriend = await Friend.create({
+      user_id: userId,
+      friend_id: friendId,
+    });
+    res.status(201).json(newFriend);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -30,11 +32,11 @@ const addFriend = async (req, res) => {
 // Remove a friend
 const removeFriend = async (req, res) => {
   const { friendId } = req.params;
+  const userId = req.user.id;
   try {
-    await pool.query(
-      'DELETE FROM friends WHERE user_id = $1 AND friend_id = $2',
-      [req.user.id, friendId]
-    );
+    await Friend.destroy({
+      where: { user_id: userId, friend_id: friendId },
+    });
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -1,63 +1,93 @@
-const pool = require('../config/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { User } = require('../models');
 
+// Register a new user
 const registerUser = async (req, res) => {
   const { username, password } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const now = new Date(); // Current timestamp for both createdAt and updatedAt
-    const newUser = await pool.query(
-      'INSERT INTO users (username, password, "createdAt", "updatedAt") VALUES ($1, $2, $3, $4) RETURNING *',
-      [username, hashedPassword, now, now]
-    );
-    res.status(201).json(newUser.rows[0]);
+    const now = new Date();
+    const newUser = await User.create({
+      username,
+      password: hashedPassword,
+      created_at: now,
+      updated_at: now,
+    });
+    res.status(201).json(newUser);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
+// Login a user
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
   try {
-    const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+    const user = await User.findOne({ where: { username } });
 
-    if (user.rows.length === 0) {
+    if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    const validPassword = await bcrypt.compare(password, user.rows[0].password);
+    const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
       return res.status(400).json({ message: 'Invalid password' });
     }
 
-    const token = jwt.sign({ id: user.rows[0].id }, 'your_jwt_secret', { expiresIn: '1h' });
-    res.json({ token });
+    const token = jwt.sign({ id: user.id }, 'your_jwt_secret', { expiresIn: '1h' });
+    delete user.password
+    console.log('user: ', user)
+
+    res.json({ token, id: user.id, username: user.username, profile_img: user.profile_img })
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
+// Get user profile
 const getProfile = async (req, res) => {
   try {
-    const user = await pool.query('SELECT * FROM users WHERE id = $1', [req.user.id]);
-    res.json(user.rows[0]);
+    const user = await User.findByPk(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
+// Update user profile
 const updateProfile = async (req, res) => {
-  const { username, profilePicture } = req.body;
+  const { username, profile_img } = req.body;
   try {
-    const updatedUser = await pool.query(
-      'UPDATE users SET username = $1, profile_picture = $2 WHERE id = $3 RETURNING *',
-      [username, profilePicture, req.user.id]
+    const updatedUser = await User.update(
+      { username, profile_img },
+      { where: { id: req.user.id }, returning: true }
     );
-    res.json(updatedUser.rows[0]);
+    if (!updatedUser[1].length) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(updatedUser[1][0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-module.exports = { registerUser, loginUser, getProfile, updateProfile };
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+module.exports = {
+  registerUser,
+  loginUser,
+  getProfile,
+  updateProfile,
+  getUsers,
+};

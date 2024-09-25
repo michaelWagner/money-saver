@@ -1,31 +1,38 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Savings', {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('savings', {
       id: {
-        allowNull: false,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users', // Ensure 'users' is the name of your table
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
       },
       total: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(14, 2),
+        defaultValue: 0.00,
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
+      updated_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Savings');
-  }
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('savings');
+  },
 };

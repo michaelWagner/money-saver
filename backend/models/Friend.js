@@ -1,41 +1,49 @@
-const { Model, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Friend extends Model {}
-
-Friend.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'User',
-        key: 'id',
-      },
-    },
-    friendId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'User',
-        key: 'id',
-      },
-    },
-    status: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: 'pending', // 'pending', 'accepted'
+const Friend = sequelize.define('Friend', {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'User', // Use the model name as it is defined in the database
+      key: 'id',
     },
   },
-  {
-    sequelize,
-    timestamps: true,
-    modelName: 'Friend',
+  friend_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'User', // Use the model name as it is defined in the database
+      key: 'id',
+    },
+  },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'pending', // 'pending', 'accepted'
+  },
+  created_at: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
+  updated_at: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
   }
-);
+}, {
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+  tableName: 'friends'
+});
+
+Friend.associate = models => {
+  Friend.belongsTo(models.User, { foreignKey: 'user_id' });
+  Friend.belongsTo(models.User, { foreignKey: 'friend_id' });
+};
 
 module.exports = Friend;
