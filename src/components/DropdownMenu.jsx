@@ -11,7 +11,10 @@ const DropdownMenu = ({ options, onSelect }) => {
       {options.map((option, index) => (
         <div 
           key={index} 
-          className="block px-4 py-2 text-sm text-white cursor-pointer hover:bg-gray-400"
+          className={`block px-4 py-2 text-sm text-white cursor-pointer ${
+            index === 0 ? 'rounded-tl-lg rounded-tr-lg' : '' } ${
+            index === options.length - 1 ? 'rounded-bl-lg rounded-br-lg' : ''
+          } hover:bg-gray-400`}
           role="menuitem"
           tabIndex="0"
           aria-selected="false"
