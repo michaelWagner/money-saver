@@ -19,9 +19,9 @@ const NewSavingsForm = ({ onSavingsCreated }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-sm mx-auto p-4 bg-white shadow-md rounded">
+    <form onSubmit={handleSubmit} className="w-full bg-gray-800 shadow-md rounded">
       <div className="mb-4">
-        <label htmlFor="title" className="block text-gray-700 text-sm font-bold mb-2">
+        <label htmlFor="title" className="block text-white text-sm mb-2">
           Savings Title
         </label>
         <input
@@ -29,7 +29,7 @@ const NewSavingsForm = ({ onSavingsCreated }) => {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded focus:outline-none focus:border-yellow-400"
           placeholder="Enter savings title"
           required
         />
@@ -40,7 +40,7 @@ const NewSavingsForm = ({ onSavingsCreated }) => {
       <div className="flex items-center justify-between">
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="w-full py-2 bg-yellow-400 text-gray-900 font-bold rounded hover:bg-yellow-300 transition duration-200"
         >
           Create Savings
         </button>

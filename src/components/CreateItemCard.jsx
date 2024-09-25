@@ -15,7 +15,7 @@ const CreateItemCard = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-gray-800 p-4 rounded-lg shadow-md">
+    <form onSubmit={handleSubmit} className="bg-gray-800 rounded-lg shadow-md">
       <div className="mb-3">
         <input
           type="text"

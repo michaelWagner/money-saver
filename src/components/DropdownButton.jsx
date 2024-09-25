@@ -1,11 +1,10 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 
 const DropdownButton = ({ label, isOpen, onClick }) => {
   return (
     <button 
       id="dropdownButton"
-      className="w-full text-gray-700 px-4 py-2 text-left bg-white border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      className="w-full text-white px-4 py-2 text-left bg-gray-700 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
       aria-haspopup="true" 
       aria-expanded={isOpen}
       onClick={onClick}

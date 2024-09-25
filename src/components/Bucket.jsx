@@ -2,12 +2,9 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDrop } from 'react-dnd'
 import { updateSavings } from '../services'
-import ItemCard from './ItemCard'
-import CreateItemCard from './CreateItemCard'
 
-const Bucket = ({ items, savingsList }) => {
+const Bucket = ({ items, onSavingsUpdate, savingsList }) => {
   const [bucketItems, setBucketItems] = useState([])
-  const [totalSavings, setTotalSavings] = useState(0)
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'ITEM_CARD',
@@ -23,7 +20,18 @@ const Bucket = ({ items, savingsList }) => {
 
     await updateSavings(savingsList.id, item)
     console.log('Savings updated successfully')
-    setTotalSavings((prevTotal) => prevTotal?.total + item.price)
+
+    const currentTotal = parseFloat(savingsList?.total)
+    const newTotal = (currentTotal + item.price).toFixed(2)
+    handleUpdate(newTotal)
+  }
+
+  const handleUpdate = (newTotal) => {
+    const updatedSavingsList = {
+      ...savingsList,
+      total: newTotal
+    }
+    onSavingsUpdate(updatedSavingsList)
   }
 
   return (
@@ -47,19 +55,13 @@ const Bucket = ({ items, savingsList }) => {
           <p className="text-gray-400">Drag items here to add to your bucket</p>
         )}
       </div>
-      <h3 className="text-xl font-semibold mt-4">Total Savings: ${totalSavings?.total?.toFixed(2)}</h3>
-      <CreateItemCard />
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {items.map((item) => (
-          item && <ItemCard key={item.id} item={item} />
-        ))}
-      </div>
     </div>
   )
 }
 Bucket.propTypes = {
-  items: PropTypes.array.isRequired,
+  items: PropTypes.array,
   savingsList: PropTypes.object.isRequired,
+  onSavingsUpdate: PropTypes.func.isRequired,
 }
 
 export default Bucket
