@@ -1,9 +1,13 @@
 import { useState } from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-const Header = ({ token, logout }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+interface HeaderProps {
+  token: string
+  logout: () => void
+}
+
+const Header: React.FC<HeaderProps> = ({ token, logout }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
 
   return (
     <header className="bg-gray-800 text-white">
@@ -41,11 +45,6 @@ const Header = ({ token, logout }) => {
       </div>
     </header>
   )
-}
-
-Header.propTypes = {
-  token: PropTypes.string.isRequired,
-  logout: PropTypes.func.isRequired,
 }
 
 export default Header

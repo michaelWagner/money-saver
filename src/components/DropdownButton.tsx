@@ -1,6 +1,10 @@
-import PropTypes from 'prop-types'
+interface DropdownButtonProps {
+  label: string
+  isOpen: boolean
+  onClick: () => void
+}
 
-const DropdownButton = ({ label, isOpen, onClick }) => {
+const DropdownButton: React.FC<DropdownButtonProps> = ({ label, isOpen, onClick }) => {
   return (
     <button 
       id="dropdownButton"
@@ -23,12 +27,6 @@ const DropdownButton = ({ label, isOpen, onClick }) => {
       </span>
     </button>
   )
-}
-
-DropdownButton.propTypes = {
-  label: PropTypes.string.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
 }
 
 export default DropdownButton

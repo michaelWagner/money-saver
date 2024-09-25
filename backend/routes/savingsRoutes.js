@@ -7,7 +7,6 @@ router.use(authMiddleware);
 
 router.get('/', getSavings);
 router.post('/', createSavings);
-router.post('/:id', updateSavings);
 router.post('/:savingsId', authMiddleware, updateSavings);
 
 module.exports = router;

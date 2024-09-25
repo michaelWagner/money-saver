@@ -1,7 +1,11 @@
-import PropTypes from 'prop-types'
 import { Navigate } from 'react-router-dom'
 
-const ProtectedRoute = ({ token, element }) => {
+interface ProtectedRouteProps {
+  element: React.ReactNode
+  token: string | null
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ token, element }) => {
   console.log('ProtectedRoute token:', token)
   console.log('ProtectedRoute element:', element)
 
@@ -12,11 +16,6 @@ const ProtectedRoute = ({ token, element }) => {
 
   // Render the protected route content
   return element
-}
-
-ProtectedRoute.propTypes = {
-  element: PropTypes.element.isRequired,
-  token: PropTypes.string.isRequired,
 }
 
 export default ProtectedRoute

@@ -1,6 +1,6 @@
 import api from './api';
 
-const addFriend = (userId) => {
+const addFriend = (userId: number) => {
   return api.post('/api/friends', { userId });
 };
 

@@ -1,11 +1,18 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import { loginUser, registerUser } from '../services'
 import { useUser } from '../context/UserContext'
 
-const AuthForm = ({ setToken }) => {
-  const { setUser } = useUser()
+interface AuthFormProps {
+  setToken: (token: string) => void
+}
+
+const AuthForm: React.FC<AuthFormProps> = ({ setToken }) => {
+  const userContext = useUser()
+  if (!userContext) {
+    throw new Error('useUser must be used within a UserProvider')
+  }
+  const { setUser } = userContext
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isRegister, setIsRegister] = useState(false)
@@ -14,7 +21,7 @@ const AuthForm = ({ setToken }) => {
 
   const navigate = useNavigate()
 
-  const login = async (username, password) => {
+  const login = async (username: string, password: string) => {
     const { data } = await loginUser(username, password)
 
     setToken(data.token)
@@ -27,7 +34,7 @@ const AuthForm = ({ setToken }) => {
     navigate('/')
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
       if (isRegister) {
@@ -35,10 +42,11 @@ const AuthForm = ({ setToken }) => {
         setSuccess('Registration successful')
         login(username, password)
       } else {
+        setError('User not found')
         login(username, password)
       }
-    } catch (error) {
-      setError('Failed to authenticate: ' + error.message)
+    } catch (error: any) {
+      setError('Failed to authenticate: ' + error?.message)
     }
   }
 
@@ -82,10 +90,6 @@ const AuthForm = ({ setToken }) => {
       </button>
     </div>
   )
-}
-
-AuthForm.propTypes = {
-  setToken: PropTypes.func.isRequired,
 }
 
 export default AuthForm

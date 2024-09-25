@@ -1,37 +1,43 @@
 import { useState } from 'react'
-import PropTypes from 'prop-types'
 import { useDrop } from 'react-dnd'
 import { updateSavings } from '../services'
+import { Item, Savings } from '../types'
 
-const Bucket = ({ items, onSavingsUpdate, savingsList }) => {
-  const [bucketItems, setBucketItems] = useState([])
+interface BucketProps {
+  items?: Item[] // TODO: This should show the items that have been added to the bucket 
+  savings: Savings
+  onSavingsUpdate: (savings: Savings) => void
+}
+
+const Bucket: React.FC<BucketProps> = ({ items, onSavingsUpdate, savings }) => {
+  const [bucketItems, setBucketItems] = useState<Item[]>([])
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'ITEM_CARD',
-    drop: (item) => addItemToBucket(item),
+    drop: (item: Item) => addItemToBucket(item),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
   }))
 
-  const addItemToBucket = async (item) => {
+  const addItemToBucket = async (item: Item) => {
     console.log('Adding item to bucket:', item)
     setBucketItems((prevItems) => [...prevItems, item])
 
-    await updateSavings(savingsList.id, item)
+    await updateSavings(savings.id, item)
     console.log('Savings updated successfully')
 
-    const currentTotal = parseFloat(savingsList?.total)
+    const currentTotal = parseFloat(savings?.total) // Make sure this is a number
     const newTotal = (currentTotal + item.price).toFixed(2)
     handleUpdate(newTotal)
   }
 
-  const handleUpdate = (newTotal) => {
-    const updatedSavingsList = {
-      ...savingsList,
+  const handleUpdate = (newTotal: string) => {
+    const updatedSavings = {
+      ...savings,
       total: newTotal
     }
-    onSavingsUpdate(updatedSavingsList)
+    onSavingsUpdate(updatedSavings)
   }
 
   return (
@@ -57,11 +63,6 @@ const Bucket = ({ items, onSavingsUpdate, savingsList }) => {
       </div>
     </div>
   )
-}
-Bucket.propTypes = {
-  items: PropTypes.array,
-  savingsList: PropTypes.object.isRequired,
-  onSavingsUpdate: PropTypes.func.isRequired,
 }
 
 export default Bucket

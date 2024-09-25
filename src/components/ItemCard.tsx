@@ -1,7 +1,11 @@
-import PropTypes from 'prop-types'
 import { useDrag } from 'react-dnd'
+import Item from '../types/Item'
 
-const ItemCard = ({ item }) => {
+interface ItemCardProps {
+  item: Item
+}
+
+const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'ITEM_CARD',
     item,
@@ -21,14 +25,6 @@ const ItemCard = ({ item }) => {
       <p>${item.price.toFixed(2)}</p>
     </div>
   )
-}
-
-ItemCard.propTypes = {
-  item: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-  }).isRequired
 }
 
 export default ItemCard

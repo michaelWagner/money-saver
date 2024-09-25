@@ -1,31 +1,33 @@
 import { useState, useEffect } from 'react'
 import { addFriend, getFriends, getUsers } from '../services'
+import { User } from '../types'
 
-const FriendList = () => {
-  const [friends, setFriends] = useState([])
-  const [newFriendName, setNewFriendName] = useState('')
-  const [allUsers, setAllUsers] = useState([])
-  const [searchTerm, setSearchTerm] = useState('')
+const FriendList: React.FC = () => {
+  const [friends, setFriends] = useState<User[]>([])
+  const [allUsers, setAllUsers] = useState<User[]>([])
+  const [searchTerm, setSearchTerm] = useState<string>('')
 
   useEffect(() => {
-    const fetchFriends = async () => {
-      const { data } = await getFriends()
-      setFriends(data)
-    }
+    // const fetchFriends = async () => {
+    //   const { data } = await getFriends()
+
+    //   setFriends(data)
+    // }
 
     const fetchAllUsers = async () => {
       const { data } = await getUsers()
+
       setAllUsers(data)
     }
 
-    fetchFriends()
+    // fetchFriends()
     fetchAllUsers()
   }, [])
 
-  const addNewFriend = async (userId) => {
+  const addNewFriend = async (userId: number) => {
     await addFriend(userId)
-    setNewFriendName('')
     const { data } = await getFriends()
+
     setFriends(data)
   }
 
@@ -36,7 +38,6 @@ const FriendList = () => {
         {friends.map((friend, index) => (
           <li key={index} className="flex justify-between items-center mb-2">
             <span className="text-lg text-gray-700">{friend.username}</span>
-            <span className="text-lg text-green-500">${friend.total_savings.toFixed(2)}</span>
           </li>
         ))}
       </ul>

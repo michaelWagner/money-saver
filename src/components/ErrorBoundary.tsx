@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 
-const ErrorBoundary = ({ children }) => {
+interface ErrorBoundaryProps {
+  children: React.ReactNode
+}
+
+const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
   const [hasError, setHasError] = useState(false)
 
   const resetError = () => setHasError(false)
@@ -24,10 +27,6 @@ const ErrorBoundary = ({ children }) => {
     setHasError(true)
     return <ErrorFallback />
   }
-}
-
-ErrorBoundary.propTypes = {
-  children: PropTypes.node.isRequired,
 }
 
 export default ErrorBoundary

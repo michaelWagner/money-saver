@@ -1,9 +1,12 @@
-import PropTypes from 'prop-types'
+interface ModalProps {
+  children: React.ReactNode
+  title?: string
+  isOpen: boolean
+  onClose: () => void
+}
 
-const Modal = ({ children, title, isOpen, onClose }) => {
-  const closeModal = () => {
-    onClose()
-  }
+const Modal: React.FC<ModalProps> = ({ children, title, isOpen, onClose }) => {
+  const closeModal = () => onClose()
 
   return (
     <div className={`fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}>
@@ -25,12 +28,6 @@ const Modal = ({ children, title, isOpen, onClose }) => {
       </div>
     </div>
   )
-}
-Modal.propTypes = {
-  children: PropTypes.node.isRequired,
-  title: PropTypes.string,
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
 }
 
 export default Modal

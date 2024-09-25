@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { addFriend } from '../services'
 
-const AddFriendForm = () => {
-  const [email, setEmail] = useState('')
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
+const AddFriendForm: React.FC = () => {
+  const [email, setEmail] = useState<string>('')
+  const [error, setError] = useState<string>('')
+  const [success, setSuccess] = useState<string>('')
 
-  const handleAddFriend = async (e) => {
+  const handleAddFriend = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!email) {
@@ -19,8 +19,8 @@ const AddFriendForm = () => {
       setSuccess('Friend added successfully')
       setError('')
       setEmail('')
-    } catch (error) {
-      setError('Failed to add friend: ' + error.message)
+    } catch (error: any) {
+      setError(`Failed to add friend: ${error && error.message ? error.message : 'Unknown error'}`)
     }
   }
 

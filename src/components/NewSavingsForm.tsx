@@ -1,12 +1,15 @@
 import { useState } from 'react'
-import PropTypes from 'prop-types'
 import { createSavings } from '../services'
 
-const NewSavingsForm = ({ onSavingsCreated }) => {
-  const [title, setTitle] = useState('')
-  const [error, setError] = useState(null)
+interface NewSavingsFormProps {
+  onSavingsCreated: (savings: any) => void
+}
 
-  const handleSubmit = async (e) => {
+const NewSavingsForm: React.FC<NewSavingsFormProps> = ({ onSavingsCreated }) => {
+  const [title, setTitle] = useState<string>('')
+  const [error, setError] = useState<string | null>(null)
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
       const { data } = await createSavings(title)
@@ -47,10 +50,6 @@ const NewSavingsForm = ({ onSavingsCreated }) => {
       </div>
     </form>
   )
-}
-
-NewSavingsForm.propTypes = {
-  onSavingsCreated: PropTypes.func.isRequired,
 }
 
 export default NewSavingsForm

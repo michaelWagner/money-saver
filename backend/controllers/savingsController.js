@@ -46,6 +46,8 @@ const getSavings = async (req, res) => {
 // Update savings by adding an item
 const updateSavings = async (req, res) => {
   const { savingsId } = req.params;
+  console.log('Savings ID:', savingsId);
+
   const { item } = req.body;
   const userId = req.user.id;
 

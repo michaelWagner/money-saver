@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { updateUserProfile } from '../services'
 
-const ProfileSettings = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
+const ProfileSettings: React.FC = () => {
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [confirmPassword, setConfirmPassword] = useState<string>('')
+  const [error, setError] = useState<string | null>('')
+  const [success, setSuccess] = useState<string | null>('')
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (password !== confirmPassword) {
@@ -20,7 +20,7 @@ const ProfileSettings = () => {
       await updateUserProfile({ email, password })
       setSuccess('Profile updated successfully')
       setError('')
-    } catch (error) {
+    } catch (error: any) {
       setError('Failed to update profile: ' + error.message)
     }
   }

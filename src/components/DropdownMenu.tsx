@@ -1,6 +1,11 @@
-import PropTypes from 'prop-types'
+import { DropdownOption } from '../types'
 
-const DropdownMenu = ({ options, onSelect }) => {
+interface DropdownMenuProps {
+  options: DropdownOption[]
+  onSelect: (option: DropdownOption) => void
+}
+
+const DropdownMenu: React.FC<DropdownMenuProps> = ({ options, onSelect }) => {
   return (
     <div 
       id="dropdownMenu"
@@ -16,7 +21,7 @@ const DropdownMenu = ({ options, onSelect }) => {
             index === options.length - 1 ? 'rounded-bl-lg rounded-br-lg' : ''
           } hover:bg-gray-400`}
           role="menuitem"
-          tabIndex="0"
+          tabIndex={0}
           aria-selected="false"
           onClick={() => onSelect(option)}
           >
@@ -25,11 +30,6 @@ const DropdownMenu = ({ options, onSelect }) => {
       ))}
     </div>
   )
-}
-
-DropdownMenu.propTypes = {
-  options: PropTypes.array.isRequired,
-  onSelect: PropTypes.func.isRequired,
 }
 
 export default DropdownMenu

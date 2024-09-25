@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { addItem } from '../services'
 
-const CreateItemCard = () => {
-  const [title, setTitle] = useState('')
-  const [price, setPrice] = useState('')
+const CreateItemCard: React.FC = () => {
+  const [title, setTitle] = useState<string>('')
+  const [price, setPrice] = useState<string>('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (title && price) {
       addItem({title, price: parseFloat(price)})

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { getUserProfile, updateUserProfile } from '../services'
+import User from '../types/User'
 
-const ProfileInfo = () => {
-  const [user, setUser] = useState(null)
+const ProfileInfo: React.FC = () => {
+  const [user, setUser] = useState<User | null>(null)
   const [username, setUsername] = useState('')
   const [profileImg, setProfileImg] = useState('')
 
@@ -16,10 +17,10 @@ const ProfileInfo = () => {
     fetchProfile()
   }, [])
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     await updateUserProfile({ username, profileImg })
-    setUser({ ...user, username, profile_picture: profileImg })
+    setUser({ ...user, username, profile_picture: profileImg, id: user!.id })
   }
 
   if (!user) return <div>Loading...</div>
