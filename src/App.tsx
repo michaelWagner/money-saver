@@ -23,14 +23,14 @@ const AppContent = () => {
     localStorage.removeItem('token')
   }
 
-  const saveToken = (userToken) => {
+  const saveToken = (userToken: string) => {
     localStorage.setItem('token', userToken)
     console.log('app token: ', userToken)
     setToken(userToken)
   }
 
   return (
-    <>
+    <div className='bg-background h-screen'>
       <Header token={token} logout={logout} />
       <ErrorBoundary>
         <Routes>
@@ -49,7 +49,7 @@ const AppContent = () => {
             <Route path="/login" element={<LoginPage setToken={saveToken} />} />
         </Routes>
       </ErrorBoundary>
-    </>
+    </div>
   )
 }
 

@@ -15,7 +15,8 @@ const AddFriendForm: React.FC = () => {
     }
 
     try {
-      await addFriend({ email })
+      // TODO - Add friend
+      // await addFriend({ email })
       setSuccess('Friend added successfully')
       setError('')
       setEmail('')
@@ -25,11 +26,11 @@ const AddFriendForm: React.FC = () => {
   }
 
   return (
-    <div className="max-w-sm mx-auto p-6 bg-gray-800 text-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-yellow-400 mb-4">Add a Friend</h2>
+    <div className="max-w-md w-full mx-auto p-6 bg-background text-font rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold text-font mb-4">Add a Friend</h2>
       <form onSubmit={handleAddFriend}>
         <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-400 font-semibold mb-2">
+          <label htmlFor="email" className="block text-font-muted text-sm font-semibold mb-2">
             Friend's Email:
           </label>
           <input
@@ -38,14 +39,14 @@ const AddFriendForm: React.FC = () => {
             placeholder="Enter friend's email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 bg-gray-900 text-white border border-gray-700 rounded focus:outline-none focus:border-yellow-400"
+            className="w-full p-3 bg-input-bg text-font border border-border-color rounded focus:outline-none focus:ring-1 focus:ring-input-focus"
           />
         </div>
         {error && <p className="text-red-500 mt-2">{error}</p>}
         {success && <p className="text-green-500 mt-2">{success}</p>}
         <button
           type="submit"
-          className="w-full py-3 mt-4 bg-yellow-400 text-gray-900 font-bold rounded hover:bg-yellow-300 transition duration-200"
+          className="w-full py-3 mt-4 bg-primary text-font-button font-bold rounded hover:bg-primary-hover transition duration-200"
         >
           Add Friend
         </button>

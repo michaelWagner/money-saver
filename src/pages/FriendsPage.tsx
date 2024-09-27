@@ -3,7 +3,7 @@ import FriendList from '../components/FriendList'
 
 const FriendsPage: React.FC = () => {
   return (
-    <div>
+    <div className='flex flex-col items-center gap-4'>
       <AddFriendForm />
       <FriendList />
     </div>

@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { createSavings } from '../services'
 
 interface NewSavingsFormProps {
-  onSavingsCreated: (savings: any) => void
+  onSuccess: (savings: any) => void
 }
 
-const NewSavingsForm: React.FC<NewSavingsFormProps> = ({ onSavingsCreated }) => {
+const NewSavingsForm: React.FC<NewSavingsFormProps> = ({ onSuccess }) => {
   const [title, setTitle] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
 
@@ -13,7 +13,7 @@ const NewSavingsForm: React.FC<NewSavingsFormProps> = ({ onSavingsCreated }) => 
     e.preventDefault()
     try {
       const { data } = await createSavings(title)
-      onSavingsCreated(data)
+      onSuccess(data)
       setTitle('')
       setError(null)
     } catch (err) {
@@ -22,9 +22,9 @@ const NewSavingsForm: React.FC<NewSavingsFormProps> = ({ onSavingsCreated }) => 
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full bg-gray-800 shadow-md rounded">
+    <form onSubmit={handleSubmit} className="w-full bg-background rounded">
       <div className="mb-4">
-        <label htmlFor="title" className="block text-white text-sm mb-2">
+        <label htmlFor="title" className="block text-font-muted text-sm font-semibold mb-2">
           Savings Title
         </label>
         <input
@@ -32,7 +32,7 @@ const NewSavingsForm: React.FC<NewSavingsFormProps> = ({ onSavingsCreated }) => 
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded focus:outline-none focus:border-yellow-400"
+          className="w-full p-3 bg-input-bg text-font border border-border-color rounded focus:outline-none focus:ring-1 focus:ring-input-focus"
           placeholder="Enter savings title"
           required
         />
@@ -43,7 +43,7 @@ const NewSavingsForm: React.FC<NewSavingsFormProps> = ({ onSavingsCreated }) => 
       <div className="flex items-center justify-between">
         <button
           type="submit"
-          className="w-full py-2 bg-yellow-400 text-gray-900 font-bold rounded hover:bg-yellow-300 transition duration-200"
+          className="w-full py-3 mt-4 bg-primary text-font-button font-bold rounded hover:bg-primary-hover transition duration-200"
         >
           Create Savings
         </button>
