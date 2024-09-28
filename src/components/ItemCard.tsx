@@ -18,7 +18,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
     <div
       ref={drag}
       className={
-        `text-center max-w-fit px-10 py-4 bg-card-bg text-font rounded-lg drop-shadow-lg cursor-pointer hover:bg-card-hover active:cursor-grabbing ${
+        `border text-center max-w-fit px-10 py-4 bg-card-bg text-font rounded-lg drop-shadow-lg cursor-pointer hover:bg-card-hover active:cursor-grabbing ${
         isDragging ? 'opacity-50' : 'opacity-100'
       }`}
     >

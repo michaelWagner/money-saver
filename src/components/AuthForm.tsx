@@ -1,18 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { loginUser, registerUser } from '../services'
-import { useUser } from '../context/UserContext'
+import { User } from '../types'
 
 interface AuthFormProps {
-  setToken: (token: string) => void
+  setAuth: (user: User, token: string) => void
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({ setToken }) => {
-  const userContext = useUser()
-  if (!userContext) {
-    throw new Error('useUser must be used within a UserProvider')
-  }
-  const { setUser } = userContext
+const AuthForm: React.FC<AuthFormProps> = ({ setAuth }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isRegister, setIsRegister] = useState(false)
@@ -24,13 +19,12 @@ const AuthForm: React.FC<AuthFormProps> = ({ setToken }) => {
   const login = async (username: string, password: string) => {
     const { data } = await loginUser(username, password)
 
-    setToken(data.token)
     const user = {...data}
+    const token = user.token
     delete user.token
 
-    setUser(user)
+    setAuth(user, token)
     setError('')
-
     navigate('/')
   }
 

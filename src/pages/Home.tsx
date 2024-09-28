@@ -110,7 +110,7 @@ const Home: React.FC = () => {
         <div className="container mx-auto p-4">
           <div className="max-w-md mx-auto text-center">
             <button
-              className="w-48 py-3 mt-4 bg-yellow-400 text-gray-900 font-bold rounded hover:bg-yellow-300 transition duration-200"
+              className="w-48 py-3 mt-4 bg-secondary text-white font-bold rounded hover:bg-secondary-hover transition duration-200"
               onClick={() => openModal('isCreateItemModalOpen')}>
               Create New Item
             </button>
