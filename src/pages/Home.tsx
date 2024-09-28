@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Bucket from '../components/Bucket'
 import Dropdown from '../components/Dropdown'
+import Loading from '../components/Loading'
 import Modal from '../components/Modal'
 import NewSavingsForm from '../components/NewSavingsForm'
 import ItemCards from '../components/ItemCards'
@@ -9,6 +10,7 @@ import { Item, Savings } from '../types'
 import { getItems, getSavings } from '../services'
 
 const Home: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [items, setItems] = useState<Item[]>([])
   const [savingsLists, setSavingsLists] = useState<Savings[]>([])
   const [selectedSavings, setSelectedSavings] = useState<Savings | null>(null)
@@ -29,6 +31,7 @@ const Home: React.FC = () => {
     }
 
     const fetchSavingsLists = async () => {
+      setIsLoading(true)
       try {
         const { data } = await getSavings()
 
@@ -42,6 +45,8 @@ const Home: React.FC = () => {
         })
       } catch (error) {
         console.error('Error fetching savings:', error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -52,7 +57,6 @@ const Home: React.FC = () => {
   const handleSelect = (selected: Savings) => {
     const selectedId = selected.id
     const savings = savingsLists.find(list => list.id === selectedId) || null
-    debugger
   
     setSelectedSavings(savings)
   }
@@ -75,6 +79,7 @@ const Home: React.FC = () => {
             options={savingsLists}
             onSelect={handleSelect}
             value={selectedSavings}
+            className='w-64'
             customOptions={[{ title: 'Add New Savings...'}]}
             onCustomSelect={() => openModal('isSavingsModalOpen')} />
 
@@ -86,7 +91,13 @@ const Home: React.FC = () => {
 
       {/* TODO Add Edit & Delete buttons here */}
 
-      {selectedSavings &&
+      {isLoading &&
+        <div className="container h-48 flex justify-center items-center mx-auto text-center text-font text-xl font-semibold mt-4">
+          <Loading size={8} className="text-font" />
+        </div>
+      }
+
+      {!isLoading && selectedSavings &&
         <div className="container mx-auto text-center text-font text-xl font-semibold mb-4">
           <Bucket
             items={items}
@@ -95,16 +106,18 @@ const Home: React.FC = () => {
           <h3 className="text-xl font-semibold mt-4">Total Savings: ${selectedSavings?.total}</h3>
         </div>}
 
-      <div className="container mx-auto p-4">
-        <div className="max-w-md mx-auto text-center">
-          <button
-            className="w-48 py-3 mt-4 bg-yellow-400 text-gray-900 font-bold rounded hover:bg-yellow-300 transition duration-200"
-            onClick={() => openModal('isCreateItemModalOpen')}>
-            Create New Item
-          </button>
+      {!isLoading &&
+        <div className="container mx-auto p-4">
+          <div className="max-w-md mx-auto text-center">
+            <button
+              className="w-48 py-3 mt-4 bg-yellow-400 text-gray-900 font-bold rounded hover:bg-yellow-300 transition duration-200"
+              onClick={() => openModal('isCreateItemModalOpen')}>
+              Create New Item
+            </button>
+          </div>
+          <ItemCards items={items} />
         </div>
-        <ItemCards items={items} />
-      </div>
+      }
 
       {/* Modals */}
       {modalState.isSavingsModalOpen && (

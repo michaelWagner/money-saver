@@ -8,7 +8,7 @@
   --color-primary-focus: #3182ce;  /* Blue on focus */
 
   /* Secondary Colors */
-  --color-secondary: #f6e05e;      /* Secondary yellow */
+  --color-secondary: #f6e05e;       /* Secondary yellow */
   --color-secondary-hover: #ecc94b; /* Darker yellow on hover */
   --color-secondary-focus: #d69e2e; /* Yellow on focus */
 
@@ -29,9 +29,10 @@
   --color-card-hover: #faf089;     /* Lighter card background on hover */
 
   /* Font Colors */
-  --color-font: #2d3748;           /* Default dark font */
+  --color-font: #2d3748;           /* Default font */
   --color-font-muted: #718096;     /* Muted text */
-  --color-font-button: #fff;     /* Muted text */
+  --color-font-button: #fff;       /* Muted text */
+  --color-font-inverse: #f7fafc;   /* Default font */
 
   /* Borders */
   --color-border: #cbd5e0;         /* Default border */
@@ -43,7 +44,7 @@
   --color-shadow-focus: rgba(0, 0, 0, 0.2); /* Shadow on focus */
 
   /* Disabled States */
-  --color-disabled: #a0aec0;       /* Disabled font */
+  --color-disabled: #a0aec0;        /* Disabled font */
   --color-disabled-border: #cbd5e0; /* Disabled border */
 }
 
@@ -73,6 +74,7 @@
   --color-font: #f7fafc;
   --color-font-muted: #a0aec0;
   --color-font-button: #fff;
+  --color-font-inverse: #2d3748;
 
   --color-border: #4a5568;
   --color-border-focus: #3182ce;

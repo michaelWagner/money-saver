@@ -25,6 +25,7 @@ module.exports = {
         font: 'var(--color-font)',
         'font-muted': 'var(--color-font-muted)',
         'font-button': 'var(--color-font-button)',
+        'font-inverse': 'var(--color-font-inverse)',
         'border-color': 'var(--color-border)',
         'border-focus': 'var(--color-border-focus)',
         shadow: 'var(--color-shadow)',

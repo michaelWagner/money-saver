@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Toggle from './Toggle'
 
 interface HeaderProps {
   token: string
@@ -8,6 +9,33 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ token, logout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+  const [theme, setTheme] = useState<string>('dark')
+
+  useEffect(() => {
+    const currentTheme = localStorage.getItem('theme') // Get previous theme from local storage
+
+    if (currentTheme) {
+      updateTheme(currentTheme)
+    } else {
+      updateTheme('dark') // Set default theme to dark
+    }
+  }, [])
+
+  const updateTheme = (newTheme: string) => {
+    document.documentElement.setAttribute('data-theme', newTheme)
+    localStorage.setItem('theme', newTheme)
+    setTheme(newTheme)
+  }
+
+  const toggleTheme = () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+
+    if (currentTheme === 'dark') {
+      updateTheme('light')
+    } else {
+      updateTheme('dark')
+    }
+  }
 
   return (
     <header className="bg-background text-font mb-6">
@@ -28,11 +56,8 @@ const Header: React.FC<HeaderProps> = ({ token, logout }) => {
                 <li><Link to="/" className="hover:text-font-muted">Bucket</Link></li>
                 <li><Link to="/friends" className="hover:text-font-muted">Friends</Link></li>
                 <li><Link to="/profile" className="hover:text-font-muted">Profile</Link></li>
-                <li>
-                  <button onClick={logout} className="text-font hover:text-font-muted">
-                    Logout
-                  </button>
-                </li>
+                <li><button onClick={logout} className="text-font hover:text-font-muted">Logout</button></li>
+                <li><Toggle value={theme === 'dark'} onChange={toggleTheme} /></li>
               </>
             )}
           </ul>

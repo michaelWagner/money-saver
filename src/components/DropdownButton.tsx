@@ -8,7 +8,7 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ label, isOpen, onClick 
   return (
     <button 
       id="dropdownButton"
-      className="w-full flex items-center text-font px-4 py-2 text-left bg-input-bg border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-focus"
+      className="w-full flex items-center justify-between text-font px-4 py-2 text-left bg-input-bg border rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-input-focus"
       aria-haspopup="true" 
       aria-expanded={isOpen}
       onClick={onClick}

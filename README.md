@@ -88,9 +88,9 @@ The Money-Saver App is a fun and engaging tool designed to help users save money
 - [ ] Develop responsive design for web and mobile.
 
 ### Backend Development
-- [ ] Set up API routes for items, savings, and user data.
-- [ ] Implement secure token-based authentication.
-- [ ] Integrate PostgreSQL for data management.
+- [x] Set up API routes for items, savings, and user data.
+- [x] Implement secure token-based authentication.
+- [x] Integrate PostgreSQL for data management.
 
 ### Gamification Features
 - [ ] Create badges and rewards for achievements.
