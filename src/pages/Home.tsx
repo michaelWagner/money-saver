@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react'
 import Bucket from '../components/Bucket'
 import Dropdown from '../components/Dropdown'
+import Loading from '../components/Loading'
 import Modal from '../components/Modal'
 import NewSavingsForm from '../components/NewSavingsForm'
-import ItemCard from '../components/ItemCard'
+import ItemCards from '../components/ItemCards'
 import CreateItemCard from '../components/CreateItemCard'
 import { Item, Savings } from '../types'
 import { getItems, getSavings } from '../services'
 
 const Home: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [items, setItems] = useState<Item[]>([])
   const [savingsLists, setSavingsLists] = useState<Savings[]>([])
   const [selectedSavings, setSelectedSavings] = useState<Savings | null>(null)
@@ -29,19 +31,28 @@ const Home: React.FC = () => {
     }
 
     const fetchSavingsLists = async () => {
+      setIsLoading(true)
       try {
         const { data } = await getSavings()
 
-        setSavingsLists(data)
-        if (data.length) setSelectedSavings(data[0]) // set default selected savings
+        setSavingsLists((prev) => {
+          if (!prev.length || prev.length && prev.length > data.length) {
+            setSelectedSavings(data[0]) // set default selected savings
+          } else if (prev.length && prev.length < data.length) {
+            setSelectedSavings(data[data.length - 1]) // set new selected savings
+          }
+          return data
+        })
       } catch (error) {
         console.error('Error fetching savings:', error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
     fetchItems()
     fetchSavingsLists()
-  }, [])
+  }, [...Object.values(modalState)])
 
   const handleSelect = (selected: Savings) => {
     const selectedId = selected.id
@@ -61,48 +72,63 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div className='bg-gray-800'>
-      <div className="w-full max-w-sm mx-auto mb-6">
-        <Dropdown
-          options={savingsLists}
-          onSelect={handleSelect}
-          value={selectedSavings}
-          customOptions={[{ title: 'Add New Savings...'}]}
-          onCustomSelect={() => openModal('isSavingsModalOpen')} />
+    <div className='bg-background'>
+      <div className="w-full container p-4 mx-auto mb-6">
+        <div className='flex justify-between items-center'>
+          <Dropdown
+            options={savingsLists}
+            onSelect={handleSelect}
+            value={selectedSavings}
+            className='w-64'
+            customOptions={[{ title: 'Add New Savings...'}]}
+            onCustomSelect={() => openModal('isSavingsModalOpen')} />
+
+          <button className="px-4 py-2 bg-primary text-font-button font-bold rounded-lg hover:bg-primary-hover transition duration-200" onClick={() => openModal('isCreateItemModalOpen')}>
+            Edit Savings
+          </button>
+        </div>
       </div>
 
-      {selectedSavings &&
-        <div className="text-center text-white text-xl font-semibold mb-4">
+      {/* TODO Add Edit & Delete buttons here */}
+
+      {isLoading &&
+        <div className="container h-48 flex justify-center items-center mx-auto text-center text-font text-xl font-semibold mt-4">
+          <Loading size={8} className="text-font" />
+        </div>
+      }
+
+      {!isLoading && selectedSavings &&
+        <div className="container mx-auto text-center text-font text-xl font-semibold mb-4">
           <Bucket
             items={items}
-            onSavingsUpdate={(updatedSavings) => setSelectedSavings(updatedSavings)}
+            onSavingsUpdate={(updatedSavings) => setSelectedSavings({...selectedSavings, total: updatedSavings.total})}
             savings={selectedSavings} />
           <h3 className="text-xl font-semibold mt-4">Total Savings: ${selectedSavings?.total}</h3>
         </div>}
 
-      <div className="container mx-auto p-4">
-        <div className="max-w-md mx-auto text-center">
-          <button className="w-48 py-3 mt-4 bg-yellow-400 text-gray-900 font-bold rounded hover:bg-yellow-300 transition duration-200" onClick={() => openModal('isCreateItemModalOpen')}>
-            Create New Item
-          </button>
+      {!isLoading &&
+        <div className="container mx-auto p-4">
+          <div className="max-w-md mx-auto text-center">
+            <button
+              className="w-48 py-3 mt-4 bg-yellow-400 text-gray-900 font-bold rounded hover:bg-yellow-300 transition duration-200"
+              onClick={() => openModal('isCreateItemModalOpen')}>
+              Create New Item
+            </button>
+          </div>
+          <ItemCards items={items} />
         </div>
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {items.map((item) => (
-            item && <ItemCard key={item.id} item={item} />
-          ))}
-        </div>
-      </div>
+      }
 
       {/* Modals */}
       {modalState.isSavingsModalOpen && (
         <Modal title="Create New Savings Bucket" isOpen={modalState.isSavingsModalOpen} onClose={() => closeModal('isSavingsModalOpen')}>
-          <NewSavingsForm onSavingsCreated={() => closeModal('isSavingsModalOpen')} />
+          <NewSavingsForm onSuccess={async (newSavings) => closeModal('isSavingsModalOpen')} />
         </Modal>
       )}
 
       {modalState.isCreateItemModalOpen && (
         <Modal title="Create New Item" isOpen={modalState.isCreateItemModalOpen} onClose={() => closeModal('isCreateItemModalOpen')}>
-          <CreateItemCard />
+          <CreateItemCard onSuccess={() => closeModal('isCreateItemModalOpen')}/>
         </Modal>
       )}
     </div>

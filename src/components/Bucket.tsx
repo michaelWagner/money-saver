@@ -41,24 +41,24 @@ const Bucket: React.FC<BucketProps> = ({ items, onSavingsUpdate, savings }) => {
   }
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-gray-800 rounded-lg shadow-md text-white">
-      <h2 className="text-2xl font-bold text-yellow-400 mb-4">Bucket</h2>
+    <div className="max-w-xl mx-auto p-6 bg-background rounded-lg shadow-md text-font">
+      <h2 className="text-2xl font-bold text-font mb-4">Bucket</h2>
       <div
         ref={drop}
         className={`min-h-[150px] border-2 ${
-          isOver ? 'border-yellow-400 bg-gray-700' : 'border-gray-600 bg-gray-800'
+          isOver ? 'border-input-focus bg-input-hover' : 'border-border-color bg-background'
         } border-dashed p-4 text-center rounded-lg transition-colors duration-200 ease-in-out`}
       >
         {bucketItems.length > 0 ? (
           bucketItems.map((item, index) => (
             item && item.price && (
-              <div key={index} className="p-2 bg-gray-700 rounded mb-2">
+              <div key={index} className="p-2 bg-card-bg drop-shadow-lg rounded mb-2">
                 {item.title}: ${item.price?.toFixed(2)}
               </div>
             )
           ))
         ) : (
-          <p className="text-gray-400">Drag items here to add to your bucket</p>
+          <p className=" text-lg text-font-muted">Drag items here to add to your bucket</p>
         )}
       </div>
     </div>

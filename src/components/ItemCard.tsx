@@ -1,5 +1,5 @@
 import { useDrag } from 'react-dnd'
-import Item from '../types/Item'
+import { Item } from '../types/Item'
 
 interface ItemCardProps {
   item: Item
@@ -17,7 +17,8 @@ const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
   return (
     <div
       ref={drag}
-      className={`p-4 bg-gray-800 text-white rounded-lg shadow-md ${
+      className={
+        `text-center max-w-fit px-10 py-4 bg-card-bg text-font rounded-lg drop-shadow-lg cursor-pointer hover:bg-card-hover active:cursor-grabbing ${
         isDragging ? 'opacity-50' : 'opacity-100'
       }`}
     >

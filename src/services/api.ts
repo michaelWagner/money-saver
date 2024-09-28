@@ -32,6 +32,7 @@ api.interceptors.response.use(
 
     if (error.response && error.response.status === 401) {
       console.log('Unauthorized, redirecting to login')
+      localStorage.removeItem('token') // Remove token from local storage
       navigate('/login') // Redirect to login if unauthorized
     }
 

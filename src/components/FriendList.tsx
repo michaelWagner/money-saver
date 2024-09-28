@@ -32,12 +32,12 @@ const FriendList: React.FC = () => {
   }
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Friends</h2>
+    <div className="max-w-md w-full mx-auto p-4 bg-background rounded-lg shadow-md">
+      <h2 className="text-2xl text-font font-bold mb-4">Friends</h2>
       <ul className="mb-6">
         {friends.map((friend, index) => (
           <li key={index} className="flex justify-between items-center mb-2">
-            <span className="text-lg text-gray-700">{friend.username}</span>
+            <span className="text-lg text-font">{friend.username}</span>
           </li>
         ))}
       </ul>
@@ -46,17 +46,17 @@ const FriendList: React.FC = () => {
         placeholder="Search for users"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full p-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full p-2 mb-4 text-font border border-border-color rounded-lg focus:outline-none focus:ring-1 focus:ring-input-focus"
       />
       <ul>
         {allUsers
           .filter((user) => user.username.includes(searchTerm) && !friends.find((f) => f.id === user.id))
           .map((user) => (
             <li key={user.id} className="flex justify-between items-center mb-2">
-              <span className="text-lg text-gray-700">{user.username}</span>
+              <span className="text-lg text-font">{user.username}</span>
               <button
                 onClick={() => addNewFriend(user.id)}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-4 py-2 bg-primary text-font-button rounded-lg hover:bg-primary-hover focus:outline-none focus:ring-1 focus:ring-input-focus"
               >
                 Add Friend
               </button>

@@ -5,16 +5,24 @@ import { DropdownOption } from '../types/DropdownOption'
 
 interface DropdownProps {
   options: DropdownOption[]
-  onSelect: (option: DropdownOption) => void
+  onSelect: (option: any) => void
   value: DropdownOption | null
   onCustomSelect?: () => void
   customOptions?: DropdownOption[]
   placeholder?: string
+  className?: string
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ placeholder, options, customOptions, onSelect, onCustomSelect, value }) => {
+const Dropdown: React.FC<DropdownProps> = ({
+  className,
+  customOptions,
+  onSelect,
+  onCustomSelect,
+  options,
+  placeholder,
+  value,
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [selectedOptionTitle, setSelectedOptionTitle] = useState<string>(placeholder || 'Select an option')
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   const toggleDropdown = () => {
@@ -26,10 +34,9 @@ const Dropdown: React.FC<DropdownProps> = ({ placeholder, options, customOptions
       // Call the custom select handler if the custom option is selected
       onCustomSelect && onCustomSelect()
     } else {
-      setSelectedOptionTitle(option?.title)
       onSelect(option)
-      setIsOpen(false)
     }
+    setIsOpen(false)
   }
 
   const handleClickOutside = (e: MouseEvent) => {
@@ -37,13 +44,6 @@ const Dropdown: React.FC<DropdownProps> = ({ placeholder, options, customOptions
       setIsOpen(false)
     }
   }
-
-  // Update the selected option title when the value prop changes
-  useEffect(() => {
-    if (value) {
-      setSelectedOptionTitle(value.title)
-    }
-  }, [value])
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
@@ -57,7 +57,7 @@ const Dropdown: React.FC<DropdownProps> = ({ placeholder, options, customOptions
   const optionsWithCustoms = [...options, ...(customOptions || []).map(option => ({ ...option, custom: true }))]
 
   return (
-    <div className="relative inline-block w-full"
+    <div className={`relative inline-block bg-input-bg ${className ? className : ''}`}
       ref={dropdownRef} 
     >
       <DropdownButton 
