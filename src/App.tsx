@@ -8,11 +8,31 @@ import ProfilePage from './pages/ProfilePage'
 import LoginPage from './pages/LoginPage'
 import ErrorBoundary from './components/ErrorBoundary'
 import ProtectedRoute from './components/ProtectedRoute'
+import { useUser, UserProvider } from './context/UserContext'
+import { User } from './types'
 import './App.css'
 
 const AppContent = () => {
   const [token, setToken] = useState(localStorage.getItem('token') || '')
   const navigate = useNavigate()
+
+  const userContext = useUser()
+
+  if (!userContext) {
+    throw new Error('useUser must be used within a UserProvider')
+  }
+
+  const { user, setUser } = userContext
+
+  useEffect(() => {
+    if (!user && token) {
+      const storedUser = localStorage.getItem('currentUser')
+
+      if (storedUser) {
+        setUser(JSON.parse(storedUser))
+      }
+    }
+  }, [token, user, setUser])
 
   useEffect(() => {
     setNavigate(navigate) // Set the navigate function for global access
@@ -21,17 +41,19 @@ const AppContent = () => {
   const logout = () => {
     setToken('')
     localStorage.removeItem('token')
+    localStorage.removeItem('currentUser')
   }
 
-  const saveToken = (userToken: string) => {
-    localStorage.setItem('token', userToken)
-    console.log('app token: ', userToken)
-    setToken(userToken)
+  const setAuth = (user: User, token: string) => {
+    localStorage.setItem('token', token)
+    localStorage.setItem('currentUser', JSON.stringify(user))
+    setToken(token)
+    setUser(user)
   }
 
   return (
     <div className='bg-background h-screen'>
-      <Header token={token} logout={logout} />
+      <Header token={token} user={user} logout={logout} />
       <ErrorBoundary>
         <Routes>
           <Route
@@ -46,7 +68,7 @@ const AppContent = () => {
               path="/profile"
               element={<ProtectedRoute element={<ProfilePage />} token={token} />}
             />
-            <Route path="/login" element={<LoginPage setToken={saveToken} />} />
+            <Route path="/login" element={<LoginPage setAuth={setAuth} />} />
         </Routes>
       </ErrorBoundary>
     </div>
@@ -55,9 +77,11 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <UserProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </UserProvider>
   )
 }
 

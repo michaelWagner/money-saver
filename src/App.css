@@ -8,9 +8,9 @@
   --color-primary-focus: #3182ce;  /* Blue on focus */
 
   /* Secondary Colors */
-  --color-secondary: #f6e05e;       /* Secondary yellow */
-  --color-secondary-hover: #ecc94b; /* Darker yellow on hover */
-  --color-secondary-focus: #d69e2e; /* Yellow on focus */
+  --color-secondary: #12980d;       /* Secondary green */
+  --color-secondary-hover: #0e7c0b; /* Darker green on hover */
+  --color-secondary-focus: #076704; /* Green on focus */
 
   /* Accent Colors */
   --color-accent: #dd6b20;         /* Accent orange */
@@ -54,9 +54,9 @@
   --color-primary-hover: #2c5282;
   --color-primary-focus: #2b6cb0;
 
-  --color-secondary: #ecc94b;
-  --color-secondary-hover: #d69e2e;
-  --color-secondary-focus: #d69e2e;
+  --color-secondary: #12980d;       /* Secondary green */
+  --color-secondary-hover: #0e7c0b; /* Darker green on hover */
+  --color-secondary-focus: #076704;
 
   --color-accent: #c05621;
   --color-accent-hover: #9c4221;

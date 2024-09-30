@@ -14,7 +14,7 @@ const Modal: React.FC<ModalProps> = ({ children, title, isOpen, onClose }) => {
         <div role='presentation' className="fixed inset-0 bg-black opacity-50" onClick={closeModal}></div>
 
         <div role='dialog' className="relative bg-background w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto p-6">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center mb-6">
             <h3 className="text-font text-lg font-semibold">{title}</h3>
             <button
               className="text-font absolute top-2 right-2 p-1 hover:text-font-muted"
@@ -22,7 +22,6 @@ const Modal: React.FC<ModalProps> = ({ children, title, isOpen, onClose }) => {
               &#x2715;
             </button>
           </div>
-          <div className='border-b border-border-color mt-2 mb-6'></div>
           {children}
         </div>
       </div>

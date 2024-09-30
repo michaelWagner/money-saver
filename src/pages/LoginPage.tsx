@@ -1,13 +1,14 @@
 import AuthForm from '../components/AuthForm'
+import { User } from '../types'
 
 interface LoginPageProps {
-  setToken: (token: string) => void
+  setAuth: (user: User, token: string) => void
 }
 
-const LoginPage: React.FC<LoginPageProps> = ({ setToken }) => {
+const LoginPage: React.FC<LoginPageProps> = ({ setAuth }) => {
   return (
     <div className='h-[80%] content-center'>
-      <AuthForm setToken={setToken} />
+      <AuthForm setAuth={setAuth} />
     </div>
   )
 }

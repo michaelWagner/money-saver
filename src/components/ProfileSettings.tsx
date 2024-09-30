@@ -58,6 +58,7 @@ const ProfileSettings: React.FC = () => {
             className="w-full p-3 bg-input-bg text-font border border-border-color rounded focus:outline-none focus:ring-1 focus:ring-input-focus"
           />
         </div>
+        {/* TODO should this be a file picker? */}
         <div className="mb-4">
           <label htmlFor="profileImg" className="block text-font-muted text-sm font-semibold mb-2">
             Profile Image:
@@ -66,7 +67,7 @@ const ProfileSettings: React.FC = () => {
             id="profileImg"
             type="profileImg"
             placeholder="New Profile Image"
-            value={user.profile_picture}
+            value={user.profile_picture || ''}
             onChange={(e) => setUser({...user, profile_picture: e.target.value})}
             className="w-full p-3 bg-input-bg text-font border border-border-color rounded focus:outline-none focus:ring-1 focus:ring-input-focus"
           />

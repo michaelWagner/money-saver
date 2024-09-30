@@ -9,7 +9,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ options, onSelect }) => {
   return (
     <div 
       id="dropdownMenu"
-      className="absolute left-0 w-full mt-2 bg-background border rounded-lg shadow-lg transition-all duration-300 ease-out"
+      className="absolute z-20 left-0 w-full mt-2 bg-background border rounded-lg shadow-lg transition-all duration-300 ease-out"
       role="menu"
       aria-labelledby="dropdownButton"
     >
@@ -19,7 +19,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ options, onSelect }) => {
           className={`block px-4 py-2 text-sm text-font cursor-pointer ${
             index === 0 ? 'rounded-tl-lg rounded-tr-lg' : '' } ${
             index === options.length - 1 ? 'rounded-bl-lg rounded-br-lg' : ''
-          } hover:bg-muted`}
+          } hover:bg-input-hover`}
           role="menuitem"
           tabIndex={0}
           aria-selected="false"

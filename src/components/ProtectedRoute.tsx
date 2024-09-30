@@ -6,9 +6,6 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ token, element }) => {
-  console.log('ProtectedRoute token:', token)
-  console.log('ProtectedRoute element:', element)
-
   if (!token) {
     // Handle the case where token is not provided
     return <Navigate to="/login" />

@@ -4,7 +4,7 @@ import { User } from '../types'
 
 const FriendList: React.FC = () => {
   const [friends, setFriends] = useState<User[]>([])
-  const [allUsers, setAllUsers] = useState<User[]>([])
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([])
   const [searchTerm, setSearchTerm] = useState<string>('')
 
   useEffect(() => {
@@ -17,7 +17,9 @@ const FriendList: React.FC = () => {
     const fetchAllUsers = async () => {
       const { data } = await getUsers()
 
-      setAllUsers(data)
+      const users = data.filter((user: User) => user.id !== 1)
+
+      setFilteredUsers(data)
     }
 
     // fetchFriends()
@@ -49,7 +51,7 @@ const FriendList: React.FC = () => {
         className="w-full p-2 mb-4 text-font border border-border-color rounded-lg focus:outline-none focus:ring-1 focus:ring-input-focus"
       />
       <ul>
-        {allUsers
+        {filteredUsers
           .filter((user) => user.username.includes(searchTerm) && !friends.find((f) => f.id === user.id))
           .map((user) => (
             <li key={user.id} className="flex justify-between items-center mb-2">
